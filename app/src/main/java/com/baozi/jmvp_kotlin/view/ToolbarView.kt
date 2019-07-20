@@ -14,27 +14,22 @@ interface ToolbarView : BaseView {
     /**
      * 获得ToolbarHelper,Presenter可以通过ToolbarHelper的来控制toolbar
      */
-    val toolbarHelper: ToolbarHelper
+    fun toolbarHelper(): ToolbarHelper
 
-    /**
-     * 是否使用MaterialDesign风格
-     *
-     * @return
-     */
-    val isMaterialDesign: Boolean
+    fun toolbarOptions(): ToolbarOptions?
 
     /**
      * 通过这个修改toolbar的样式layout,不需要可以传0或者-1;
      *
      * @return
      */
-    @get:LayoutRes
-    val toolbarLayout: Int
-
-    val toolbarOptions: ToolbarOptions?
+    @LayoutRes
+    fun toolbarLayout(): Int
 
     /**
      * 回退
      */
     fun onBackPressed()
+
+
 }

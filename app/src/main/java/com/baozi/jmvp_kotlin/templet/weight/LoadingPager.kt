@@ -41,7 +41,11 @@ class LoadingPager : FrameLayout {
             if (successPage == null || mSuccessPage != null) {
                 return
             }
-            addView(successPage, 0, FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+            addView(
+                successPage,
+                0,
+                FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            )
             mSuccessPage = successPage
             initView()
         }
@@ -57,7 +61,13 @@ class LoadingPager : FrameLayout {
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {}
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(
+        context,
+        attrs,
+        defStyleAttr,
+        defStyleRes
+    ) {
+
     }
 
 
@@ -104,7 +114,6 @@ class LoadingPager : FrameLayout {
     }
 
     private fun initPage(view: View?, layout: Int): View? {
-        var view = view
         //如果已经添加则直接return
         if (indexOfChild(view) != -1) {
             return view
@@ -115,13 +124,13 @@ class LoadingPager : FrameLayout {
             return view
         }
         //如果未添加且为null,则创建并添加
-        if (layout == 0) {
-            view = View(context)
+        val newView = if (layout == 0) {
+            View(context)
         } else {
-            view = LayoutInflater.from(context).inflate(layout, this, false)
+            LayoutInflater.from(context).inflate(layout, this, false)
         }
-        addView(view)
-        return view
+        addView(newView)
+        return newView
     }
 
     fun setEmptyPage(emptyPage: View) {
@@ -147,10 +156,10 @@ class LoadingPager : FrameLayout {
      */
     private fun refreshUIByState() {
         if (this.isShowLoading) {
-            mLoadingPage!!.visibility = if (mCurrentState == STATE_LOADING) View.VISIBLE else View.GONE
+            mLoadingPage?.visibility = if (mCurrentState == STATE_LOADING) View.VISIBLE else View.GONE
         }
-        mErrorPage!!.visibility = if (mCurrentState == STATE_ERROR) View.VISIBLE else View.GONE
-        mEmptyPage!!.visibility = if (mCurrentState == STATE_EMPTY) View.VISIBLE else View.GONE
+        mErrorPage?.visibility = if (mCurrentState == STATE_ERROR) View.VISIBLE else View.GONE
+        mEmptyPage?.visibility = if (mCurrentState == STATE_EMPTY) View.VISIBLE else View.GONE
     }
 
     /**
@@ -160,7 +169,7 @@ class LoadingPager : FrameLayout {
         if (mCurrentState != STATE_LOADING) {
             mCurrentState = STATE_LOADING
             if (refreshListener != null) {
-                refreshListener!!.onRefresh()
+                refreshListener?.onRefresh()
             }
             refreshUIByState()
         }
@@ -208,10 +217,10 @@ class LoadingPager : FrameLayout {
     }
 
     companion object {
-        val STATE_EMPTY = 0
-        val STATE_ERROR = 1
-        val STATE_LOADING = 2
-        val STATE_SUCCESS = 3
+        const val STATE_EMPTY = 0
+        const val STATE_ERROR = 1
+        const val STATE_LOADING = 2
+        const val STATE_SUCCESS = 3
     }
 
 }

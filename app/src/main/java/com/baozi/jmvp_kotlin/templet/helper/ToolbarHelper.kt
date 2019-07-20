@@ -9,8 +9,8 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.View
 import com.baozi.jmvp_kotlin.R
-import com.baozi.jmvp_kotlin.view.ToolbarView
 import com.baozi.jmvp_kotlin.templet.options.ToolbarOptions
+import com.baozi.jmvp_kotlin.view.ToolbarView
 
 /**
  * @author jlanglang  2017/2/21 16:31
@@ -100,16 +100,14 @@ abstract class ToolbarHelper {
     }
 
     companion object {
-         val TOOLBAR_TEMPLATE_DEFAULT = R.layout.toolbar_template_default
+         const val TOOLBAR_TEMPLATE_DEFAULT = R.layout.toolbar_template_default
 
         fun create(toolbarView: ToolbarView): ToolbarHelper {
             val toolbarLayout = toolbarView.toolbarLayout
-            return if (toolbarLayout <= 0) {
-                EmptyToolbarHelperImpl()
-            } else if (toolbarLayout == TOOLBAR_TEMPLATE_DEFAULT) {
-                SimpleToolbarHelperImpl(toolbarView)
-            } else {
-                BaseToolBarHelperImpl(toolbarView)
+            return when {
+                toolbarLayout <= 0 -> EmptyToolbarHelperImpl()
+                toolbarLayout == TOOLBAR_TEMPLATE_DEFAULT -> SimpleToolbarHelperImpl(toolbarView)
+                else -> BaseToolBarHelperImpl(toolbarView)
             }
         }
 

@@ -17,7 +17,7 @@ import com.baozi.jmvp_kotlin.view.ToolbarView
  * @Change
  */
 
-class SimpleToolbarHelperImpl internal constructor(uiView: ToolbarView) : BaseToolBarHelperImpl(uiView) {
+class SimpleToolbarHelperImpl internal constructor(toolbarView: ToolbarView) : BaseToolBarHelperImpl(toolbarView) {
 
     private var mTitleView: TextView? = null
     @ColorInt

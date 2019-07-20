@@ -5,8 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
-import android.support.annotation.ColorRes
-import android.support.annotation.DrawableRes
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
@@ -25,24 +23,22 @@ import java.lang.reflect.ParameterizedType
 @Suppress("LeakingThis")
 abstract class BaseActivity<T : BasePresenter<*>> : AppCompatActivity(), UIView {
     val TAG: String = this.javaClass.simpleName
+    private var mContentView: View? = null
+
     override val viewContext: Context
         get() = this
     val isFinish: Boolean
         get() = isFinishing
 
+    override val viewContent: View?
+        get() = mContentView
+
     private var mPresenter by PresenterProperty<T>(this)
     private var statusBarView: View? = null
 
     protected open val statusBarDrawable: Int
-        @DrawableRes
-        @ColorRes
         get() = MVPManager.toolbarOptions.statusDrawable
 
-    private var mContentView: View? = null
-
-    override fun getContentView(): View? {
-        return mContentView
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -23,31 +23,9 @@ import com.baozi.jmvp_kotlin.view.ToolbarView
  *
  * @param <T>
 </T> */
-abstract class TemplateActivity<T : BasePresenter<*>> : BaseActivity<T>(), ToolbarView {
+open class TemplateActivity<T : BasePresenter<*>> : BaseActivity<T>(), ToolbarView {
 
     private lateinit var mRootView: ViewGroup
-
-    /**
-     * 默认使用base_toolbar
-     * 如果不需要toolbar,请复写,并返回0.或者-1
-     *
-     * @return
-     */
-    override val toolbarLayout: Int = toolbarOptions.toolbarLayout
-
-    override val statusBarDrawable: Int = toolbarOptions.statusDrawable
-
-    final override val toolbarOptions: ToolbarOptions
-        get() = MVPManager.toolbarOptions
-
-
-    override val isMaterialDesign: Boolean
-        get() = false
-
-
-    override fun appcompatActivity(): TemplateActivity<*> {
-        return this
-    }
 
     /**
      * 如果设置的主题不是NoActionBar或者initToolbar()返回是0,则返回null.
@@ -62,9 +40,30 @@ abstract class TemplateActivity<T : BasePresenter<*>> : BaseActivity<T>(), Toolb
      *
      * @return
      */
-    override val toolbarHelper: ToolbarHelper by lazy {
+    val toolbarHelper: ToolbarHelper by lazy {
         ToolbarHelper.create(this)
     }
+
+    /**
+     * 请在ui线程中调用
+     *
+     * @return
+     */
+    val toolbarOptions: ToolbarOptions by lazy {
+        MVPManager.toolbarOptions
+    }
+
+    override val statusBarDrawable: Int
+        get() = toolbarOptions().statusDrawable
+
+    override fun toolbarLayout(): Int = toolbarOptions().toolbarLayout
+    override fun toolbarHelper(): ToolbarHelper = toolbarHelper
+    override fun toolbarOptions(): ToolbarOptions = toolbarOptions
+
+    override fun appcompatActivity(): TemplateActivity<*> {
+        return this
+    }
+
 
     override fun initView(inflater: LayoutInflater, savedInstanceState: Bundle?): View {
         val supportActionBar = supportActionBar
@@ -94,7 +93,7 @@ abstract class TemplateActivity<T : BasePresenter<*>> : BaseActivity<T>(), Toolb
      * (只会在第一次初始化菜单时调用)
      */
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        return isMaterialDesign && super.onCreateOptionsMenu(menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
     /**

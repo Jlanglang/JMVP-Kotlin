@@ -28,10 +28,14 @@ abstract class BaseFragment<T : BasePresenter<*>> : Fragment(), UIView {
     override lateinit var viewContext: Context
     protected var mPresenter: T by PresenterProperty(this)
     protected open lateinit var mBundle: Bundle
-    private var mContentView: View? = null
     private var isInit: Boolean = false
+
+    private var mContentView: View? = null
+
     val isFinish: Boolean
         get() = isDetached
+    override val viewContent: View?
+        get() = mContentView
 
     /**
      * 绑定activity
@@ -127,10 +131,6 @@ abstract class BaseFragment<T : BasePresenter<*>> : Fragment(), UIView {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         mPresenter.onActivityResult(requestCode, resultCode, data)
-    }
-
-    override fun getContentView(): View? {
-        return mContentView
     }
 
     /**

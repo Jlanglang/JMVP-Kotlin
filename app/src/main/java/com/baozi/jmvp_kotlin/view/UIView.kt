@@ -4,7 +4,6 @@ import android.content.res.Resources
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.view.View
 import android.view.Window
 
 /**
@@ -26,13 +25,6 @@ interface UIView : BaseView {
      * @return
      */
     fun appcompatActivity(): AppCompatActivity
-
-    /**
-     * 主要视图View
-     *
-     * @return
-     */
-    fun getContentView(): View?
 
     fun window(): Window
 

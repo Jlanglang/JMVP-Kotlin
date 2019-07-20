@@ -20,7 +20,7 @@ import com.baozi.jmvp_kotlin.view.ToolbarView
 open class BaseToolBarHelperImpl(protected var mToolbarView: ToolbarView) : ToolbarHelper() {
     private val mContext: Context = mToolbarView.viewContext
     final override var toolbar: Toolbar? = null
-    final override var appBarLayout: AppBarLayout? = mToolbarView.contentView.findViewById(R.id.app_bar)
+    final override var appBarLayout: AppBarLayout? = mToolbarView.viewContent?.findViewById(R.id.app_bar)
     private val mViews: SparseArray<View> = SparseArray()
 
     init {
@@ -41,9 +41,7 @@ open class BaseToolBarHelperImpl(protected var mToolbarView: ToolbarView) : Tool
     }
 
     override fun setToolbarOptions(toolbarOptions: ToolbarOptions) {
-        if (toolbar == null) {
-            return
-        }
+        toolbar ?: return
         val toolbarColor = toolbarOptions.toolbarColor
         val toolbarDrawable = toolbarOptions.toolbarDrawable
         val toolbarHeight = toolbarOptions.toolbarHeight
@@ -80,9 +78,9 @@ open class BaseToolBarHelperImpl(protected var mToolbarView: ToolbarView) : Tool
      * @return 可能为null
     </V> */
     override fun <V : View> findViewFromAppBar(@IdRes viewId: Int): V? {
-        var view: View? = mViews.get(viewId)
+        var view = mViews.get(viewId)
         if (view == null && appBarLayout != null) {
-            view = appBarLayout!!.findViewById(viewId)
+            view = appBarLayout?.findViewById(viewId) ?: return view
             mViews.put(viewId, view)
         }
         return view as? V
@@ -97,7 +95,6 @@ open class BaseToolBarHelperImpl(protected var mToolbarView: ToolbarView) : Tool
      */
     override fun setScrollFlag(@IdRes viewId: Int, @AppBarLayout.LayoutParams.ScrollFlags flag: Int): Boolean {
         val view = findViewFromAppBar<View>(viewId)
-
         try {
             val layoutParams = view?.layoutParams as? AppBarLayout.LayoutParams
             layoutParams?.scrollFlags = flag
