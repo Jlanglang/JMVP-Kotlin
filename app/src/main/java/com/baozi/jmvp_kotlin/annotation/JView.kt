@@ -1,11 +1,20 @@
 package com.baozi.jmvp_kotlin.annotation
 
-import android.support.annotation.LayoutRes
+import com.baozi.jmvp_kotlin.presenter.BasePresenter
+import com.baozi.jmvp_kotlin.presenter.EmptyPresenter
 import java.lang.annotation.Inherited
+import kotlin.reflect.KClass
 
 @Inherited//可继承
 @Target(AnnotationTarget.CLASS)
-@Retention(AnnotationRetention.RUNTIME)
+@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
 annotation class JView(
-    @LayoutRes val layout: Int = 0
+    /**
+     * @return presenter的class
+     */
+    val p: KClass<out BasePresenter<*>> = EmptyPresenter::class,
+    /**
+     * @return 布局id
+     */
+    val layout: Int = 0
 )

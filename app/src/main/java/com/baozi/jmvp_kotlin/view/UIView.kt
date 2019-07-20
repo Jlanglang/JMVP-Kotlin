@@ -1,13 +1,11 @@
 package com.baozi.jmvp_kotlin.view
 
 import android.content.res.Resources
-import android.support.v4.app.Fragment
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.Window
-import com.baozi.jmvp_kotlin.view.BaseView
 
 /**
  * Created by baozi on 2017/2/20.
@@ -53,22 +51,7 @@ interface UIView : BaseView {
      */
     fun onNewThrowable(throwable: Throwable)
 
-    /**
-     * Frgament跳转.
-     *
-     * @param fragment
-     */
-    fun startFragment(fragment: Fragment)
-
-    /**
-     * Frgament跳转.
-     *
-     * @param fragment
-     */
-    fun startFragment(fragment: Fragment, tag: String? = null, enterAnim: Int = 0, exitAnim: Int = 0, popEnter: Int = 0
-                      , popExit: Int = 0, isAddBack: Boolean = true)
-
     fun setSupportActionBar(toolbar: Toolbar?)
 
-    fun finishActivity()
+    fun finish()
 }

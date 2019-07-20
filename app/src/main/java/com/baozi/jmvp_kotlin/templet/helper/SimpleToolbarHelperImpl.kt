@@ -1,15 +1,14 @@
-package com.linfeng.mvp.templet.helper
+package com.baozi.jmvp_kotlin.templet.helper
 
 import android.support.annotation.ColorInt
 import android.text.TextUtils
 import android.view.View
-import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.baozi.jmvp_kotlin.R
+import com.baozi.jmvp_kotlin.view.ToolbarView
+import com.baozi.jmvp_kotlin.templet.options.ToolbarOptions
 
-import com.baozi.mvp.R
-import com.baozi.mvp.tempalet.options.ToolbarOptions
-import com.baozi.mvp.view.ToolbarView
 
 /**
  * @author jlanglang  2017/2/21 16:44
@@ -18,6 +17,7 @@ import com.baozi.mvp.view.ToolbarView
  */
 
 class SimpleToolbarHelperImpl internal constructor(uiView: ToolbarView) : BaseToolBarHelperImpl(uiView) {
+
     private var mTitleView: TextView? = null
     @ColorInt
     private var mOtherTextColor: Int = 0
@@ -27,19 +27,19 @@ class SimpleToolbarHelperImpl internal constructor(uiView: ToolbarView) : BaseTo
     override fun initToolbar() {
         mTitleView = findView(R.id.tv_title)
         endActions = findView(R.id.ll_end_group)
-        ToolbarHelper.SimpleInitToolbar(mToolbarView.getContext(), toolbar!!, false)
+        simpleInitToolbar(mToolbarView.viewContext, toolbar, false)
     }
 
-    override fun setToolbarOptions(options: ToolbarOptions?) {
-        super.setToolbarOptions(options)
-        val mTitleSize = options!!.getTitleSize()
-        val mTitleColor = options!!.getTitleColor()
-        mOtherTextColor = options!!.getOtherTextColor()
-        mOtherTextSize = options!!.getOtherTextSize()
+    override fun setToolbarOptions(toolbarOptions: ToolbarOptions) {
+        super.setToolbarOptions(toolbarOptions)
+        val mTitleSize = toolbarOptions.titleSize
+        val mTitleColor = toolbarOptions.titleColor
+        mOtherTextColor = toolbarOptions.otherTextColor
+        mOtherTextSize = toolbarOptions.otherTextSize
         if (mOtherTextColor != 0 || mOtherTextSize != 0) {
             notifyToolbarText()
         }
-        val noBack = options!!.isNoBack()
+        val noBack = toolbarOptions.noBack
         if (mTitleSize != 0) {
             mTitleView!!.textSize = mTitleSize.toFloat()
         }
@@ -47,7 +47,7 @@ class SimpleToolbarHelperImpl internal constructor(uiView: ToolbarView) : BaseTo
             mTitleView!!.setTextColor(mTitleColor)
         }
         if (!noBack) {
-            var backDrawable = options!!.getBackDrawable()
+            var backDrawable = toolbarOptions.backDrawable
             if (backDrawable == 0) {
                 backDrawable = R.drawable.back
             }
@@ -80,13 +80,13 @@ class SimpleToolbarHelperImpl internal constructor(uiView: ToolbarView) : BaseTo
     }
 
 
-    override fun setTitle(titleView: String): ToolbarHelper {
-        mTitleView!!.text = titleView
+    override fun setTitle(str: String): ToolbarHelper {
+        mTitleView!!.text = str
         return this
     }
 
-    override fun setTitle(titleId: Int): ToolbarHelper {
-        val title = mToolbarView.getContext().getResources().getString(titleId)
+    override fun setTitle(str: Int): ToolbarHelper {
+        val title = mToolbarView.viewContext.resources.getString(str)
         setTitle(title)
         return this
     }

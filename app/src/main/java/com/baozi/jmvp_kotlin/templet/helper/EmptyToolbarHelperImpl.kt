@@ -1,13 +1,16 @@
-package com.linfeng.mvp.templet.helper
+package com.baozi.jmvp_kotlin.templet.helper
 
 import android.view.View
 
-import com.linfeng.mvp.templet.options.ToolbarOptions
+import com.baozi.jmvp_kotlin.templet.options.ToolbarOptions
 
 /**
  *
  */
 class EmptyToolbarHelperImpl : ToolbarHelper() {
+    override fun setToolbarOptions(toolbarOptions: ToolbarOptions) {
+
+    }
 
     override fun setScrollFlag(viewId: Int, flag: Int): Boolean {
         return false
@@ -15,10 +18,6 @@ class EmptyToolbarHelperImpl : ToolbarHelper() {
 
     override fun <V : View> findViewFromAppBar(viewId: Int): V? {
         return null
-    }
-
-    override fun setToolbarOptions(toolbarOptions: ToolbarOptions) {
-
     }
 
 }

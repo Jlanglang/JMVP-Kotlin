@@ -12,10 +12,10 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
-import com.linfeng.mvp.MVPManager
+import com.baozi.jmvp_kotlin.MVPManager
 import com.baozi.jmvp_kotlin.annotation.JView
-import com.linfeng.mvp.presenter.BasePresenter
-import com.linfeng.mvp.property.PresenterProperty
+import com.baozi.jmvp_kotlin.presenter.BasePresenter
+import com.baozi.jmvp_kotlin.property.PresenterProperty
 import com.baozi.jmvp_kotlin.view.UIView
 import java.lang.reflect.ParameterizedType
 
@@ -24,8 +24,8 @@ import java.lang.reflect.ParameterizedType
  */
 @Suppress("LeakingThis")
 abstract class BaseActivity<T : BasePresenter<*>> : AppCompatActivity(), UIView {
-
-    override val mContext: Context
+    val TAG: String = this.javaClass.simpleName
+    override val viewContext: Context
         get() = this
     val isFinish: Boolean
         get() = isFinishing
@@ -36,7 +36,7 @@ abstract class BaseActivity<T : BasePresenter<*>> : AppCompatActivity(), UIView 
     protected open val statusBarDrawable: Int
         @DrawableRes
         @ColorRes
-        get() = MVPManager.toolbarOptions.getStatusDrawable()
+        get() = MVPManager.toolbarOptions.statusDrawable
 
     private var mContentView: View? = null
 
@@ -47,7 +47,7 @@ abstract class BaseActivity<T : BasePresenter<*>> : AppCompatActivity(), UIView 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //创建presenter
-        mPresenter = initPresenter()
+        mPresenter = initPresenter() as T
         lifecycle.addObserver(mPresenter)
         //初始化ContentView
         mContentView = initView(layoutInflater, savedInstanceState)
@@ -155,34 +155,15 @@ abstract class BaseActivity<T : BasePresenter<*>> : AppCompatActivity(), UIView 
         return 0
     }
 
-    override fun finishActivity() {
-        finish()
-    }
-
     protected open fun initPresenter(): T {
         // 通过反射机制获取子类传递过来的实体类的类型信息
         val type = this.javaClass.genericSuperclass as ParameterizedType
-        return (type.actualTypeArguments[0] as Class<T>).newInstance()
+        try {
+            return (type.actualTypeArguments[0] as Class<T>).newInstance()
+        } catch (e: Exception) {
+
+        }
+        val annotation = this.javaClass.getAnnotation(JView::class.java)
+        return annotation?.p?.java?.newInstance() as T
     }
 }
-//class M {
-//    var isLogin = false
-//        set(value) {
-//            if (field != value) {
-//                VM().setVLogin(value)
-//            }
-//        }
-//}
-//class VM {
-//    fun setVLogin(value: Boolean) {
-//        V().setLogin(value)
-//    }
-//    fun setMLogin(value: Boolean) {
-//        M().isLogin = value
-//    }
-//}
-//class V {
-//    fun setLogin(b: Boolean) {
-//        VM().setMLogin(b)
-//    }
-//}

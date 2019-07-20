@@ -1,4 +1,4 @@
-package com.linfeng.mvp.model
+package com.baozi.jmvp_kotlin.model
 
 import android.support.annotation.DrawableRes
 

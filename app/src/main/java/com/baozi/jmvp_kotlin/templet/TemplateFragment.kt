@@ -7,12 +7,12 @@ import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.linfeng.mvp.MVPManager
+import com.baozi.jmvp_kotlin.MVPManager
 import com.linfeng.mvp.R
-import com.linfeng.mvp.base.BaseFragment
-import com.linfeng.mvp.presenter.BasePresenter
-import com.linfeng.mvp.templet.options.ContentOptions
-import com.linfeng.mvp.templet.options.ToolbarOptions
+import com.baozi.jmvp_kotlin.base.BaseFragment
+import com.baozi.jmvp_kotlin.presenter.BasePresenter
+import com.baozi.jmvp_kotlin.templet.options.ContentOptions
+import com.baozi.jmvp_kotlin.templet.options.ToolbarOptions
 import com.baozi.jmvp_kotlin.view.ToolbarView
 
 /**

@@ -1,4 +1,4 @@
-package com.linfeng.mvp.base
+package com.baozi.jmvp_kotlin.base
 
 import android.content.Context
 import android.content.Intent
@@ -15,8 +15,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import com.baozi.jmvp_kotlin.annotation.JView
-import com.linfeng.mvp.presenter.BasePresenter
-import com.linfeng.mvp.property.PresenterProperty
+import com.baozi.jmvp_kotlin.presenter.BasePresenter
+import com.baozi.jmvp_kotlin.property.PresenterProperty
 import com.baozi.jmvp_kotlin.view.UIView
 import java.lang.reflect.ParameterizedType
 
@@ -24,13 +24,13 @@ import java.lang.reflect.ParameterizedType
  * @author jlanglang  2016/1/5 9:42
  */
 abstract class BaseFragment<T : BasePresenter<*>> : Fragment(), UIView {
-
-    override lateinit var mContext: Context
+    val TAG: String = this.javaClass.simpleName
+    override lateinit var viewContext: Context
     protected open var mPresenter: T by PresenterProperty(this)
     protected open lateinit var mBundle: Bundle
     private var mContentView: View? = null
     private var isInit: Boolean = false
-    var isFinish: Boolean = false
+    val isFinish: Boolean
         get() = isDetached
 
     /**
@@ -40,7 +40,7 @@ abstract class BaseFragment<T : BasePresenter<*>> : Fragment(), UIView {
      */
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        mContext = context
+        viewContext = context
         //应该只创建一次Presenter.
         if (!isInit) {
             mPresenter = initPresenter()
@@ -55,11 +55,7 @@ abstract class BaseFragment<T : BasePresenter<*>> : Fragment(), UIView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //获取bundle,并保存起来
-        mBundle = if (savedInstanceState != null) {
-            savedInstanceState.getBundle("bundle")
-        } else {
-            if (arguments == null) Bundle() else arguments!!
-        }
+        mBundle = savedInstanceState?.getBundle("bundle") ?: arguments ?: Bundle()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -113,11 +109,6 @@ abstract class BaseFragment<T : BasePresenter<*>> : Fragment(), UIView {
     }
 
 
-    override fun onStart() {
-        mPresenter.onStart()
-        super.onStart()
-    }
-
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
         if (isVisibleToUser) {
@@ -129,19 +120,9 @@ abstract class BaseFragment<T : BasePresenter<*>> : Fragment(), UIView {
         }
     }
 
-    override fun onStop() {
-        mPresenter.onStop()
-        super.onStop()
-    }
-
     override fun onDetach() {
         mPresenter.onDetach()
         super.onDetach()
-    }
-
-    override fun onDestroy() {
-        mPresenter.onDestroy()
-        super.onDestroy()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -206,9 +187,9 @@ abstract class BaseFragment<T : BasePresenter<*>> : Fragment(), UIView {
         appcompatActivity().setSupportActionBar(toolbar)
     }
 
-    override fun resources(): Resources = mContext.resources
+    override fun resources(): Resources = viewContext.resources
 
-    override fun appcompatActivity(): AppCompatActivity = mContext as AppCompatActivity
+    override fun appcompatActivity(): AppCompatActivity = viewContext as AppCompatActivity
 
     override fun window(): Window = appcompatActivity().window
 
@@ -217,61 +198,23 @@ abstract class BaseFragment<T : BasePresenter<*>> : Fragment(), UIView {
     override fun onNewThrowable(throwable: Throwable) {
     }
 
-    override fun startFragment(fragment: Fragment) {
-        startFragment(fragment, null)
-
-    }
-
-    override fun startFragment(fragment: Fragment, tag: String?, enterAnim: Int, exitAnim: Int, popEnter: Int, popExit: Int, isAddBack: Boolean) {
-        val fragmentTransaction = fragmentManager?.beginTransaction() ?: return
-        fragmentTransaction.setCustomAnimations(enterAnim, exitAnim, popEnter, popExit)
-        fragmentTransaction.hide(this).add(android.R.id.content, fragment, tag)
-        if (isAddBack) {
-            fragmentTransaction.addToBackStack(tag)
-        }
-        fragmentTransaction.commitAllowingStateLoss()
-    }
-
-    override fun finishActivity() {
+    override fun finish() {
         appcompatActivity().finish()
     }
 
     /**
-     * 跳转Activity
-     */
-    open fun startActivity(zclass: Class<*>) {
-        val intent = Intent(mContext, zclass)
-        startActivity(intent)
-    }
-
-    /**
-     * 跳转Activity
-     */
-    open fun startActivity(zclass: Class<*>, bundle: Bundle, flag: Int) {
-        val intent = Intent(mContext, zclass)
-        intent.putExtras(bundle)
-        intent.addFlags(flag)
-        startActivity(intent)
-    }
-
-    /**
-     * 跳转Activity
-     */
-    open fun startActivity(zclass: Class<*>, flag: Int) {
-        val intent = Intent(mContext, zclass)
-        intent.addFlags(flag)
-        startActivity(intent)
-    }
-
-    /**
      * 初始化Presenter
-
      * @return
      */
-
     protected open fun initPresenter(): T {
         // 通过反射机制获取子类传递过来的实体类的类型信息
         val type = this.javaClass.genericSuperclass as ParameterizedType
-        return (type.actualTypeArguments[0] as Class<T>).newInstance()
+        try {
+            return (type.actualTypeArguments[0] as Class<T>).newInstance()
+        } catch (e: Exception) {
+
+        }
+        val annotation = this.javaClass.getAnnotation(JView::class.java)
+        return annotation?.p?.java?.newInstance() as T
     }
 }

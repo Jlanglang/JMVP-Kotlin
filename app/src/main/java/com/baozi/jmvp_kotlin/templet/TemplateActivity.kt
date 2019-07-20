@@ -1,4 +1,4 @@
-package com.linfeng.mvp.templet
+package com.baozi.jmvp_kotlin.templet
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -10,13 +10,14 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import com.baozi.jmvp_kotlin.R
 
-import com.linfeng.mvp.MVPManager
-import com.linfeng.mvp.R
+import com.baozi.jmvp_kotlin.MVPManager
 import com.baozi.jmvp_kotlin.base.BaseActivity
-import com.linfeng.mvp.presenter.BasePresenter
-import com.linfeng.mvp.templet.options.ToolbarOptions
+import com.baozi.jmvp_kotlin.presenter.BasePresenter
+import com.baozi.jmvp_kotlin.templet.options.ToolbarOptions
 import com.baozi.jmvp_kotlin.view.ToolbarView
+import com.baozi.jmvp_kotlin.templet.helper.ToolbarHelper
 
 /**
  * 模版Activity
@@ -33,11 +34,11 @@ abstract class TemplateActivity<T : BasePresenter<*>> : BaseActivity<T>(), Toolb
      *
      * @return
      */
-    override val toolbarLayout: Int = toolbarOptions.getToolbarLayout()
+    override val toolbarLayout: Int = toolbarOptions.toolbarLayout
 
-    override val statusBarDrawable: Int = toolbarOptions.getStatusDrawable()
+    override val statusBarDrawable: Int = toolbarOptions.statusDrawable
 
-    override val toolbarOptions: ToolbarOptions
+    final override val toolbarOptions: ToolbarOptions
         get() = MVPManager.toolbarOptions
 
 
@@ -62,7 +63,7 @@ abstract class TemplateActivity<T : BasePresenter<*>> : BaseActivity<T>(), Toolb
      * @return
      */
     override val toolbarHelper: ToolbarHelper by lazy {
-        ToolbarHelper.create(this, mRootView)
+        ToolbarHelper.create(this)
     }
 
     override fun initView(inflater: LayoutInflater, savedInstanceState: Bundle?): View {

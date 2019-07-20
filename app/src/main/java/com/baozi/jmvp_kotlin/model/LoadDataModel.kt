@@ -1,4 +1,4 @@
-package com.linfeng.mvp.model
+package com.baozi.jmvp_kotlin.model
 
 /**
  * Created by baozi on 2017/12/5.

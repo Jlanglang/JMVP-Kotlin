@@ -1,17 +1,17 @@
-package com.linfeng.mvp
+package com.baozi.jmvp_kotlin
 
 import android.support.annotation.AnimRes
 import android.support.annotation.AnimatorRes
 import android.support.annotation.StyleRes
-import com.linfeng.mvp.templet.options.ContentOptions
-import com.linfeng.mvp.templet.options.ToolbarOptions
+import com.baozi.jmvp_kotlin.templet.options.ContentOptions
+import com.baozi.jmvp_kotlin.templet.options.ToolbarOptions
 
 /**
  * Created by Administrator on 2017/8/15 0015.
  */
 
 object MVPManager {
-    val toolbarOptions: ToolbarOptions = ToolbarOptions.Create()
+    val toolbarOptions: ToolbarOptions = ToolbarOptions.create()
         get() = field.clone()
     val contentOptions: ContentOptions = ContentOptions.create()
         get() = field.clone()

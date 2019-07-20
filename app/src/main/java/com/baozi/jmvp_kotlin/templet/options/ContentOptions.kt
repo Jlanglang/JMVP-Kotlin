@@ -1,4 +1,4 @@
-package com.linfeng.mvp.templet.options
+package com.baozi.jmvp_kotlin.templet.options
 
 import android.content.Context
 import android.support.annotation.IdRes
@@ -13,11 +13,11 @@ import java.util.*
 
 class ContentOptions : Cloneable {
     @LayoutRes
-    private var emptyLayout: Int = 0
+    var emptyLayout: Int = 0
     @LayoutRes
-    private var errorLayout: Int = 0
+    var errorLayout: Int = 0
     @LayoutRes
-    private var loadingLayout: Int = 0
+    var loadingLayout: Int = 0
 
     /**
      * 是否显示
@@ -26,53 +26,13 @@ class ContentOptions : Cloneable {
 
     var clickIds: MutableSet<Int>? = null
 
-
     var throwables: List<Class<*>>? = null
 
     fun addClickId(@IdRes clickId: Int): ContentOptions {
         if (clickIds == null) {
             clickIds = TreeSet()
-            clickIds!!.add(clickId)
+            clickIds?.add(clickId)
         }
-        return this
-    }
-
-    @LayoutRes
-    fun getEmptyLayout(): Int {
-        return emptyLayout
-    }
-
-    fun setEmptyLayout(@LayoutRes emptyLayout: Int): ContentOptions {
-        this.emptyLayout = emptyLayout
-        return this
-    }
-
-    @LayoutRes
-    fun getErrorLayout(): Int {
-        return errorLayout
-    }
-
-    fun setErrorLayout(@LayoutRes errorLayout: Int): ContentOptions {
-        this.errorLayout = errorLayout
-        return this
-    }
-
-    @LayoutRes
-    fun getLoadingLayout(): Int {
-        return loadingLayout
-    }
-
-    fun setLoadingLayout(@LayoutRes loadingLayout: Int): ContentOptions {
-        this.loadingLayout = loadingLayout
-        return this
-    }
-
-    fun isOpenLoading(): Boolean {
-        return isOpenLoading
-    }
-
-    fun setOpenLoading(openLoading: Boolean): ContentOptions {
-        isOpenLoading = openLoading
         return this
     }
 

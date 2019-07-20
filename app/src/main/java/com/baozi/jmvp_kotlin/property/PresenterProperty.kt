@@ -1,6 +1,6 @@
-package com.linfeng.mvp.property
+package com.baozi.jmvp_kotlin.property
 
-import com.linfeng.mvp.presenter.BasePresenter
+import com.baozi.jmvp_kotlin.presenter.BasePresenter
 import com.baozi.jmvp_kotlin.view.UIView
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty

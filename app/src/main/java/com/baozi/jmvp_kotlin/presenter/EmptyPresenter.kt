@@ -1,4 +1,4 @@
-package com.linfeng.mvp.presenter
+package com.baozi.jmvp_kotlin.presenter
 
 import com.baozi.jmvp_kotlin.view.UIView
 
@@ -8,17 +8,7 @@ import com.baozi.jmvp_kotlin.view.UIView
 
 class EmptyPresenter : BasePresenter<UIView>() {
 
-    override fun onCreate() {}
-
-    override fun onRefreshData() {
-
-    }
-
     override fun cancelRequest() {
-
-    }
-
-    override fun netWorkError(throwable: Throwable) {
 
     }
 }

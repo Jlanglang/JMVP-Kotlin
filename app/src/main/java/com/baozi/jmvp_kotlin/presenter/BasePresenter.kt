@@ -1,4 +1,4 @@
-package com.linfeng.mvp.presenter
+package com.baozi.jmvp_kotlin.presenter
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
@@ -6,7 +6,6 @@ import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import com.baozi.jmvp_kotlin.view.UIView
 
 
@@ -19,8 +18,6 @@ abstract class BasePresenter<T : UIView> : LifecycleObserver {
 
 
     lateinit var view: T
-
-    open fun contentView(): View = view.getContentView()
 
     /**
      * 绑定View

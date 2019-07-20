@@ -1,4 +1,4 @@
-package com.linfeng.mvp.templet.helper
+package com.baozi.jmvp_kotlin.templet.helper
 
 import android.content.Context
 import android.support.annotation.DrawableRes
@@ -8,10 +8,9 @@ import android.support.design.widget.AppBarLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.View
-
-import com.linfeng.mvp.R
-import com.linfeng.mvp.templet.options.ToolbarOptions
+import com.baozi.jmvp_kotlin.R
 import com.baozi.jmvp_kotlin.view.ToolbarView
+import com.baozi.jmvp_kotlin.templet.options.ToolbarOptions
 
 /**
  * @author jlanglang  2017/2/21 16:31
@@ -101,9 +100,9 @@ abstract class ToolbarHelper {
     }
 
     companion object {
-        val TOOLBAR_TEMPLATE_DEFAULT = R.layout.toolbar_template_default
+         val TOOLBAR_TEMPLATE_DEFAULT = R.layout.toolbar_template_default
 
-        fun Create(toolbarView: ToolbarView): ToolbarHelper {
+        fun create(toolbarView: ToolbarView): ToolbarHelper {
             val toolbarLayout = toolbarView.toolbarLayout
             return if (toolbarLayout <= 0) {
                 EmptyToolbarHelperImpl()
@@ -124,9 +123,9 @@ abstract class ToolbarHelper {
          * @param toolbar 将要设置的Toolbar
          */
 
-        fun SimpleInitToolbar(context: Context, toolbar: Toolbar, isMaterialDesign: Boolean) {
+        fun simpleInitToolbar(context: Context, toolbar: Toolbar?, isMaterialDesign: Boolean) {
             if (context is AppCompatActivity) {
-                toolbar.setContentInsetsAbsolute(0, 0)
+                toolbar?.setContentInsetsAbsolute(0, 0)
                 context.setSupportActionBar(toolbar)
                 val supportActionBar = context.supportActionBar
                 if (supportActionBar != null) {

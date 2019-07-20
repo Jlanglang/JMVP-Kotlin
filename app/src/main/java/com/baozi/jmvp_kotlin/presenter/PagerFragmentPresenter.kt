@@ -54,7 +54,7 @@ class PagerFragmentPresenter(private val mView: PagerFragmentView) : PagerPresen
         for (i in tabImage.indices) {
             var tab: TabLayout.Tab? = tabLayout.getTabAt(i)
             if (tab != null && tabLayoutItem != 0) {
-                val inflate = LayoutInflater.from(mView.mContext).inflate(tabLayoutItem, null) as ViewGroup
+                val inflate = LayoutInflater.from(mView.viewContext).inflate(tabLayoutItem, null) as ViewGroup
                 val childCount = inflate.childCount
                 for (j in 0 until childCount) {
                     val childAt = inflate.getChildAt(j)

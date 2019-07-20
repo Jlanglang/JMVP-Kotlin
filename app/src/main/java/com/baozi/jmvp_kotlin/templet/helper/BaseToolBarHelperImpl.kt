@@ -1,4 +1,4 @@
-package com.linfeng.mvp.templet.helper
+package com.baozi.jmvp_kotlin.templet.helper
 
 import android.content.Context
 import android.os.Build
@@ -9,17 +9,17 @@ import android.util.SparseArray
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
+import com.baozi.jmvp_kotlin.R
+import com.baozi.jmvp_kotlin.templet.options.ToolbarOptions
 
-import com.linfeng.mvp.MVPManager
-import com.linfeng.mvp.R
-import com.linfeng.mvp.templet.options.ToolbarOptions
 import com.baozi.jmvp_kotlin.view.ToolbarView
+import com.baozi.jmvp_kotlin.MVPManager
 
 /**
  * @author jlanglang  2017/2/22 16:58
  */
 open class BaseToolBarHelperImpl(protected var mToolbarView: ToolbarView) : ToolbarHelper() {
-    private val mContext: Context = mToolbarView.mContext
+    private val mContext: Context = mToolbarView.viewContext
     final override var toolbar: Toolbar? = null
     final override var appBarLayout: AppBarLayout? = mToolbarView.contentView.findViewById(R.id.app_bar)
     private val mViews: SparseArray<View> = SparseArray()
