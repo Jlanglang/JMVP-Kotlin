@@ -9,11 +9,10 @@ import android.util.SparseArray
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
+import com.baozi.jmvp_kotlin.MVPManager
 import com.baozi.jmvp_kotlin.R
 import com.baozi.jmvp_kotlin.templet.options.ToolbarOptions
-
 import com.baozi.jmvp_kotlin.view.ToolbarView
-import com.baozi.jmvp_kotlin.MVPManager
 
 /**
  * @author jlanglang  2017/2/22 16:58
@@ -45,25 +44,27 @@ open class BaseToolBarHelperImpl(protected var mToolbarView: ToolbarView) : Tool
         if (toolbar == null) {
             return
         }
-        val toolbarColor = toolbarOptions.getToolbarColor()
-        val toolbarDrawable = toolbarOptions.getToolbarDrawable()
-        val toolbarHeight = toolbarOptions.getToolbarHeight()
+        val toolbarColor = toolbarOptions.toolbarColor
+        val toolbarDrawable = toolbarOptions.toolbarDrawable
+        val toolbarHeight = toolbarOptions.toolbarHeight
         if (toolbarColor != 0) {
-            toolbar!!.setBackgroundColor(toolbarColor)
+            toolbar?.setBackgroundColor(toolbarColor)
         }
-        if (toolbarOptions.getToolbarDrawable() != 0) {
-            toolbar!!.setBackgroundResource(toolbarDrawable)
+        if (toolbarOptions.toolbarDrawable != 0) {
+            toolbar?.setBackgroundResource(toolbarDrawable)
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            appBarLayout!!.elevation = toolbarOptions.getElevation()
-            appBarLayout!!.translationZ = toolbarOptions.getElevation()
-            appBarLayout!!.invalidate()
+            appBarLayout?.elevation = toolbarOptions.elevation
+            appBarLayout?.translationZ = toolbarOptions.elevation
+            appBarLayout?.invalidate()
         }
         if (toolbarHeight > 0) {
-            val px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, toolbarHeight.toFloat(),
-                    mContext.resources.displayMetrics)
-            toolbar!!.layoutParams.height = Math.round(px)
-            toolbar!!.requestLayout()
+            val px = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, toolbarHeight.toFloat(),
+                mContext.resources.displayMetrics
+            )
+            toolbar?.layoutParams?.height = Math.round(px)
+            toolbar?.requestLayout()
         }
     }
 
@@ -111,9 +112,7 @@ open class BaseToolBarHelperImpl(protected var mToolbarView: ToolbarView) : Tool
         return true
     }
 
-    fun <T : View> findView(id: Int): T {
-        return toolbar!!.findViewById(id)
+    fun <T : View> findView(id: Int): T? {
+        return toolbar?.findViewById(id)
     }
-
-
 }

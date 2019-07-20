@@ -47,7 +47,7 @@ abstract class BaseActivity<T : BasePresenter<*>> : AppCompatActivity(), UIView 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //创建presenter
-        mPresenter = initPresenter() as T
+        mPresenter = initPresenter()
         lifecycle.addObserver(mPresenter)
         //初始化ContentView
         mContentView = initView(layoutInflater, savedInstanceState)
@@ -74,10 +74,9 @@ abstract class BaseActivity<T : BasePresenter<*>> : AppCompatActivity(), UIView 
     }
 
     open fun initStatusBar() {
-        if (statusBarView == null) {
-            val identifier = resources.getIdentifier("statusBarBackground", "id", "android")
-            statusBarView = window?.findViewById(identifier)
-        }
+        statusBarView ?: window?.findViewById<View>(
+            resources.getIdentifier("statusBarBackground", "id", "android")
+        )
         statusBarView?.setBackgroundResource(statusBarDrawable)
     }
 

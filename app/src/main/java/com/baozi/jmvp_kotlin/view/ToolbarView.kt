@@ -1,9 +1,7 @@
 package com.baozi.jmvp_kotlin.view
 
 import android.support.annotation.LayoutRes
-import android.view.View
 import com.baozi.jmvp_kotlin.templet.helper.ToolbarHelper
-
 import com.baozi.jmvp_kotlin.templet.options.ToolbarOptions
 
 /**
@@ -35,7 +33,6 @@ interface ToolbarView : BaseView {
 
     val toolbarOptions: ToolbarOptions?
 
-    val contentView: View
     /**
      * 回退
      */

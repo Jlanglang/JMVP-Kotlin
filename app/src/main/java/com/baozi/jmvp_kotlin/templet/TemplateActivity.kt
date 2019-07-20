@@ -10,14 +10,13 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import com.baozi.jmvp_kotlin.R
-
 import com.baozi.jmvp_kotlin.MVPManager
+import com.baozi.jmvp_kotlin.R
 import com.baozi.jmvp_kotlin.base.BaseActivity
 import com.baozi.jmvp_kotlin.presenter.BasePresenter
+import com.baozi.jmvp_kotlin.templet.helper.ToolbarHelper
 import com.baozi.jmvp_kotlin.templet.options.ToolbarOptions
 import com.baozi.jmvp_kotlin.view.ToolbarView
-import com.baozi.jmvp_kotlin.templet.helper.ToolbarHelper
 
 /**
  * 模版Activity
@@ -45,6 +44,7 @@ abstract class TemplateActivity<T : BasePresenter<*>> : BaseActivity<T>(), Toolb
     override val isMaterialDesign: Boolean
         get() = false
 
+
     override fun appcompatActivity(): TemplateActivity<*> {
         return this
     }
@@ -71,7 +71,7 @@ abstract class TemplateActivity<T : BasePresenter<*>> : BaseActivity<T>(), Toolb
         if (supportActionBar != null) {
             throw IllegalStateException("please extends BaseActivity.TemplateActivity Theme must be NoActionbar")
         }
-        mRootView = inflater.inflate(R.layout.templet_layout, null) as ViewGroup
+        mRootView = inflater.inflate(R.layout.template_layout, null) as ViewGroup
         //初始化一次
         val baseView = super.initView(inflater, savedInstanceState)
         val templateView = wrapperContentView(baseView)

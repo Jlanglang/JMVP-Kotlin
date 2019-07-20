@@ -3,11 +3,12 @@ package com.baozi.jmvp_kotlin.templet.helper
 import android.support.annotation.ColorInt
 import android.text.TextUtils
 import android.view.View
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.baozi.jmvp_kotlin.R
-import com.baozi.jmvp_kotlin.view.ToolbarView
 import com.baozi.jmvp_kotlin.templet.options.ToolbarOptions
+import com.baozi.jmvp_kotlin.view.ToolbarView
 
 
 /**
@@ -41,10 +42,10 @@ class SimpleToolbarHelperImpl internal constructor(uiView: ToolbarView) : BaseTo
         }
         val noBack = toolbarOptions.noBack
         if (mTitleSize != 0) {
-            mTitleView!!.textSize = mTitleSize.toFloat()
+            mTitleView?.textSize = mTitleSize.toFloat()
         }
         if (mTitleColor != 0) {
-            mTitleView!!.setTextColor(mTitleColor)
+            mTitleView?.setTextColor(mTitleColor)
         }
         if (!noBack) {
             var backDrawable = toolbarOptions.backDrawable
@@ -56,9 +57,9 @@ class SimpleToolbarHelperImpl internal constructor(uiView: ToolbarView) : BaseTo
     }
 
     private fun notifyToolbarText() {
-        val childCount = toolbar!!.childCount
+        val childCount = toolbar?.childCount ?: return
         for (i in 0 until childCount) {
-            val childAt = toolbar!!.getChildAt(childCount)
+            val childAt = toolbar?.getChildAt(childCount)
             if (childAt is TextView) {
                 if (mOtherTextColor != 0) {
                     childAt.setTextColor(mOtherTextColor)
@@ -75,13 +76,13 @@ class SimpleToolbarHelperImpl internal constructor(uiView: ToolbarView) : BaseTo
     }
 
     override fun setTitleSize(size: Int): ToolbarHelper {
-        mTitleView!!.textSize = size.toFloat()
+        mTitleView?.textSize = size.toFloat()
         return this
     }
 
 
     override fun setTitle(str: String): ToolbarHelper {
-        mTitleView!!.text = str
+        mTitleView?.text = str
         return this
     }
 
@@ -94,32 +95,34 @@ class SimpleToolbarHelperImpl internal constructor(uiView: ToolbarView) : BaseTo
 
     override fun setCanBack(canBack: Boolean): ToolbarHelper {
         super.setCanBack(canBack)
-        findView(R.id.ll_start_group).setVisibility(if (canBack) View.VISIBLE else View.GONE)
+        findView<LinearLayout>(R.id.ll_start_group)?.visibility = if (canBack) View.VISIBLE else View.GONE
         return this
     }
 
     override fun setLeading(leading: String): ToolbarHelper {
-        val view = findView(R.id.tv_start)
-        if (TextUtils.isEmpty(leading)) {
-            view.setVisibility(View.GONE)
-            return this
+        findView<TextView>(R.id.tv_start)?.apply {
+            if (TextUtils.isEmpty(leading)) {
+                visibility = View.GONE
+                return@apply
+            }
+            visibility = View.VISIBLE
+            text = leading
+            setOnClickListener { mToolbarView.onBackPressed() }
         }
-        view.setVisibility(View.VISIBLE)
-        view.setText(leading)
-        view.setOnClickListener(View.OnClickListener { mToolbarView.onBackPressed() })
         return this
     }
 
     override fun setLeading(leadRes: Int): ToolbarHelper {
-        val view = findView(R.id.ib_start)
-        view.setVisibility(View.VISIBLE)
-        view.setImageResource(leadRes)
-        view.setOnClickListener(View.OnClickListener { mToolbarView.onBackPressed() })
+        findView<ImageButton>(R.id.ib_start)?.apply {
+            visibility = View.VISIBLE
+            setImageResource(leadRes)
+            setOnClickListener { mToolbarView.onBackPressed() }
+        }
         return this
     }
 
-    override fun addActions(view: View?): ToolbarHelper {
-        if (endActions != null && view != null) {
+    override fun addActions(view: View): ToolbarHelper {
+        if (endActions != null) {
             if (view is TextView) {
                 if (mOtherTextColor != 0) {
                     view.setTextColor(mOtherTextColor)
@@ -128,21 +131,19 @@ class SimpleToolbarHelperImpl internal constructor(uiView: ToolbarView) : BaseTo
                     view.textSize = mOtherTextSize.toFloat()
                 }
             }
-            endActions!!.addView(view)
+            endActions?.addView(view)
         }
         return this
     }
 
     fun setEndText(str: String?, clickListener: View.OnClickListener) {
-        if (endActions != null) {
-            val view = findView(R.id.tv_start)
-            if (str == null) {
-                view.setVisibility(View.GONE)
-                return
-            }
-            view.setVisibility(View.VISIBLE)
-            view.setText(str)
-            view.setOnClickListener(clickListener)
+        endActions ?: return
+        findView<TextView>(R.id.tv_start)?.apply {
+            visibility = View.GONE
+            str ?: return
+            visibility = View.VISIBLE
+            text = str
+            setOnClickListener(clickListener)
         }
     }
 
@@ -151,15 +152,15 @@ class SimpleToolbarHelperImpl internal constructor(uiView: ToolbarView) : BaseTo
      * @param clickListener 点击监听
      */
     fun setEndImage(drawable: Int, clickListener: View.OnClickListener) {
-        if (endActions != null) {
-            val view = findView(R.id.tv_start)
+        endActions ?: return
+        findView<ImageButton>(R.id.ib_start)?.apply {
             if (drawable == 0) {
-                view.setVisibility(View.GONE)
-                return
+                visibility = View.GONE
+                return@apply
             }
-            view.setVisibility(View.VISIBLE)
-            view.setImageResource(drawable)
-            view.setOnClickListener(clickListener)
+            visibility = View.VISIBLE
+            setImageResource(drawable)
+            setOnClickListener(clickListener)
         }
     }
 }

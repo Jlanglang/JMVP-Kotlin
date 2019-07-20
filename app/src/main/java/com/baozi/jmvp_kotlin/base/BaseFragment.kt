@@ -26,7 +26,7 @@ import java.lang.reflect.ParameterizedType
 abstract class BaseFragment<T : BasePresenter<*>> : Fragment(), UIView {
     val TAG: String = this.javaClass.simpleName
     override lateinit var viewContext: Context
-    protected open var mPresenter: T by PresenterProperty(this)
+    protected var mPresenter: T by PresenterProperty(this)
     protected open lateinit var mBundle: Bundle
     private var mContentView: View? = null
     private var isInit: Boolean = false
@@ -129,10 +129,9 @@ abstract class BaseFragment<T : BasePresenter<*>> : Fragment(), UIView {
         mPresenter.onActivityResult(requestCode, resultCode, data)
     }
 
-    override fun getContentView(): View {
-        return mContentView!!
+    override fun getContentView(): View? {
+        return mContentView
     }
-
 
     /**
      * 类似Activity的OnBackgress

@@ -1,5 +1,6 @@
 package com.baozi.jmvp_kotlin.presenter
 
+import android.support.design.widget.TabLayout
 import android.support.v4.view.PagerAdapter
 import android.view.LayoutInflater
 import android.view.View
@@ -48,16 +49,16 @@ open class PagerPresenter(private val mView: PagerView) {
     }
 
     private fun initTabLayout() {
-        val tablayout = mView.tablayout ?: return
+        val tabLayout = mView.tablayout ?: return
         mView.tabString ?: return
-        tablayout.setupWithViewPager(mView.viewPager)
+        tabLayout.setupWithViewPager(mView.viewPager)
         val tabImage = mView.tabDrawables ?: IntArray(0)
         val tabString = mView.tabString ?: arrayOf()
-        val tabLayoutItem = mView.tabLayoutItem
+        val tabLayoutItem = mView.tabLayoutItem ?: 0
         for (i in tabImage.indices) {
-            var tab: TabLayout.Tab? = tablayout.getTabAt(i)
+            var tab: TabLayout.Tab? = tabLayout.getTabAt(i)
             if (tab != null && tabLayoutItem != 0) {
-                val inflate = LayoutInflater.from(mView.viewContext).inflate(tabLayoutItem!!, null) as ViewGroup
+                val inflate = LayoutInflater.from(mView.viewContext).inflate(tabLayoutItem, null) as ViewGroup
                 val childCount = inflate.childCount
                 for (j in 0 until childCount) {
                     val childAt = inflate.getChildAt(j)
@@ -70,14 +71,14 @@ open class PagerPresenter(private val mView: PagerView) {
                 }
                 tab.customView = inflate
             } else {
-                tab = tablayout.newTab()
+                tab = tabLayout.newTab()
                 tab.text = tabString[i]
                 tab.setIcon(tabImage[i])
             }
         }
         mView.viewPager.offscreenPageLimit = mView.tabString?.size ?: 0
         if (!mView.isAnimation) {
-            tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab) {
                     val position = tab.position
                     mView.viewPager.setCurrentItem(position, false)

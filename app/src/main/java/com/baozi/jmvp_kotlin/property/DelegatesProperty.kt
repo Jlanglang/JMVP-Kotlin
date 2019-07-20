@@ -13,8 +13,10 @@ object DelegatesProperty {
     fun <T> preference(name: String, default: T) = Preference(BaseApp.app, name, default)
 }
 
-class Preference<T>(private val context: Context, private val name: String,
-                    private val default: T) {
+class Preference<T>(
+    private val context: Context, private val name: String,
+    private val default: T
+) {
 
     private val prefs: SharedPreferences by lazy {
         context.getSharedPreferences("default", Context.MODE_PRIVATE)
@@ -41,7 +43,7 @@ class Preference<T>(private val context: Context, private val name: String,
     }
 
     @SuppressLint("CommitPrefEdits")
-    private fun putPreference(name: String, value: T) = with(prefs.edit()) {
+    private fun putPreference(name: String, value: T) = prefs.edit()?.apply {
         when (value) {
             is Long -> putLong(name, value)
             is String -> putString(name, value)

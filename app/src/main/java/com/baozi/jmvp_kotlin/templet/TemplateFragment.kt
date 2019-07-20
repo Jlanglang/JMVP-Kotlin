@@ -1,4 +1,4 @@
-package com.linfeng.mvp.templet
+package com.baozi.jmvp_kotlin.templet
 
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
@@ -8,9 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.baozi.jmvp_kotlin.MVPManager
-import com.linfeng.mvp.R
+import com.baozi.jmvp_kotlin.R
 import com.baozi.jmvp_kotlin.base.BaseFragment
 import com.baozi.jmvp_kotlin.presenter.BasePresenter
+import com.baozi.jmvp_kotlin.templet.helper.ToolbarHelper
 import com.baozi.jmvp_kotlin.templet.options.ContentOptions
 import com.baozi.jmvp_kotlin.templet.options.ToolbarOptions
 import com.baozi.jmvp_kotlin.view.ToolbarView
@@ -20,9 +21,10 @@ import com.baozi.jmvp_kotlin.view.ToolbarView
  *
  * @param <T>
 </T> */
-abstract class TemplateFragment<T : BasePresenter<*>> : BaseFragment<T>(), ToolbarView {
-    private lateinit var rootView: ViewGroup
+class TemplateFragment<T : BasePresenter<*>> : BaseFragment<T>(), ToolbarView {
 
+
+    private lateinit var rootView: ViewGroup
 
     /**
      * 默认使用base_toolbar
@@ -31,7 +33,7 @@ abstract class TemplateFragment<T : BasePresenter<*>> : BaseFragment<T>(), Toolb
      * @return
      */
     override val toolbarLayout: Int
-        get() = ToolbarHelper.TOOLBAR_TEMPLET_DEFUATL
+        get() = ToolbarHelper.TOOLBAR_TEMPLATE_DEFAULT
 
     override val toolbarOptions: ToolbarOptions
         get() = MVPManager.toolbarOptions
@@ -54,7 +56,11 @@ abstract class TemplateFragment<T : BasePresenter<*>> : BaseFragment<T>(), Toolb
      * @return
      */
     override val toolbarHelper: ToolbarHelper by lazy {
-        ToolbarHelper.create(this, rootView)
+        ToolbarHelper.create(this)
+    }
+
+    override fun onBackPressed() {
+        onBack()
     }
 
     /**
@@ -63,7 +69,7 @@ abstract class TemplateFragment<T : BasePresenter<*>> : BaseFragment<T>(), Toolb
      * @return
      */
     override fun initView(inflater: LayoutInflater, savedInstanceState: Bundle?): View? {
-        rootView = inflater.inflate(R.layout.templet_layout, null) as ViewGroup
+        rootView = inflater.inflate(R.layout.template_layout, null) as ViewGroup
         val initView = super.initView(inflater, savedInstanceState) ?: return rootView
         val view = wrapperContentView(initView)
         rootView.addView(view, 1)
