@@ -61,14 +61,16 @@ open class TemplateFragment<T : BasePresenter<*>> : BaseFragment<T>(), ToolbarVi
         rootView.addView(view, 1)
 
         val layoutParams = view.layoutParams as? CoordinatorLayout.LayoutParams
-        layoutParams?.width = ViewGroup.LayoutParams.MATCH_PARENT
-        layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
-        layoutParams?.behavior = AppBarLayout.ScrollingViewBehavior()
+        layoutParams?.apply {
+            width = ViewGroup.LayoutParams.MATCH_PARENT
+            height = ViewGroup.LayoutParams.MATCH_PARENT
+            behavior = AppBarLayout.ScrollingViewBehavior()
+        }
         view.requestLayout()
         return rootView
     }
 
-     open fun wrapperContentView(view: View): View {
+    open fun wrapperContentView(view: View): View {
         return view
     }
 

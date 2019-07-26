@@ -14,6 +14,7 @@ import com.baozi.jmvp_kotlin.MVPManager
 import com.baozi.jmvp_kotlin.annotation.JView
 import com.baozi.jmvp_kotlin.presenter.BasePresenter
 import com.baozi.jmvp_kotlin.property.PresenterProperty
+import com.baozi.jmvp_kotlin.util.startAt
 import com.baozi.jmvp_kotlin.view.UIView
 import java.lang.reflect.ParameterizedType
 
@@ -48,6 +49,11 @@ abstract class BaseActivity<T : BasePresenter<*>> : AppCompatActivity(), UIView 
         //初始化ContentView
         mContentView = initView(layoutInflater, savedInstanceState)
         super.setContentView(mContentView)
+
+        startAt<BaseActivity<*>> {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            putExtra("123", 1)
+        }
     }
 
     override fun onNewThrowable(throwable: Throwable) {
@@ -72,8 +78,10 @@ abstract class BaseActivity<T : BasePresenter<*>> : AppCompatActivity(), UIView 
     open fun initStatusBar() {
         statusBarView ?: window?.findViewById<View>(
             resources.getIdentifier("statusBarBackground", "id", "android")
-        )
-        statusBarView?.setBackgroundResource(statusBarDrawable)
+        )?.apply {
+            setBackgroundResource(statusBarDrawable)
+        }
+//        statusBarView?.
     }
 
     /**

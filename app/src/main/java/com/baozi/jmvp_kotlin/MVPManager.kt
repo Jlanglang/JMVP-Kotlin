@@ -34,10 +34,12 @@ object MVPManager {
     var transactionStyle: Int = 0
         private set
 
-    fun setFragmentAnim(@AnimatorRes @AnimRes enter: Int,
-                        @AnimatorRes @AnimRes exit: Int,
-                        @AnimatorRes @AnimRes popEnter: Int,
-                        @AnimatorRes @AnimRes popExit: Int) {
+    fun setFragmentStartAnim(
+        @AnimatorRes @AnimRes enter: Int,
+        @AnimatorRes @AnimRes exit: Int,
+        @AnimatorRes @AnimRes popEnter: Int,
+        @AnimatorRes @AnimRes popExit: Int
+    ) {
         enterAnim = enter
         exitAnim = exit
         enterPopAnim = popEnter
